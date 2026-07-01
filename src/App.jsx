@@ -77,7 +77,7 @@ function Nav() {
     <nav className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
       <div className="nav__inner">
         <div className="nav__logo">
-          <img src="/logo.png" alt="וינרוט ושות'" className="nav__logo-img" />
+          <img src="/logo-white.png" alt="Dr. J. Weinroth & Co. Law Office" className="nav__logo-img" />
           <a href="#contact" className="nav__cta" onClick={() => setOpen(false)}>יצירת קשר</a>
         </div>
         <div className={`nav__links ${open ? 'nav__links--open' : ''}`}>
@@ -231,9 +231,7 @@ function AboutSection() {
           </div>
           <div className="about__image reveal-child reveal-mask">
             <div className="about__image-frame">
-              <div className="about__image-placeholder">
-                <span className="about__image-icon">⚖️</span>
-              </div>
+              <img src="/assets/wl/about-office.jpg" alt="משרד עורכי הדין ד&quot;ר י. וינרוט ושות'" className="about__image-photo" loading="lazy" />
             </div>
           </div>
         </div>
@@ -414,7 +412,7 @@ function Footer() {
       <div className="container">
         <div className="footer__grid">
           <div className="footer__brand">
-            <img src="/logo.png" alt="וינרוט ושות'" className="footer__logo-img" />
+            <img src="/logo.png" alt="Dr. J. Weinroth & Co. Law Office" className="footer__logo-img" />
             <p className="footer__desc">משרד עורכי דין מוביל בישראל, משלב ניסיון רב-דורי עם חדשנות משפטית.</p>
           </div>
           <div className="footer__links">
@@ -445,6 +443,9 @@ function Footer() {
             <a href="#">מדיניות פרטיות</a>
             <a href="#">תנאי שימוש</a>
           </div>
+        </div>
+        <div className="footer__credit" dir="ltr">
+          Site created &amp; managed by <strong>AGENT HUB GURU O&amp;O</strong>
         </div>
       </div>
     </footer>

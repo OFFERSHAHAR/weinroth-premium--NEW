@@ -911,6 +911,25 @@ body {
 /* Parallax elements */
 .parallax { will-change: transform; }
 
+.footer__credit {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.4px;
+  color: var(--text-muted);
+}
+.footer__credit strong { color: var(--gold-dark); font-weight: 700; }
+
+.about__image-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  object-position: center;
+}
+
 /* --- Real media from weinrothlaw.com --- */
 .team__card-avatar { overflow: hidden; }
 .team__card-photo { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
