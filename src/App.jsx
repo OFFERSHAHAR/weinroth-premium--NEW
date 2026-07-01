@@ -176,7 +176,6 @@ function HeroSection() {
         <div className="hero__bg-parallax" style={{ transform: `translate(${mouse.x * 0.3}px, ${mouse.y * 0.3}px)` }}></div>
       </div>
       <div className="hero__content">
-        <div className="hero__content-blur"></div>
         <div className="hero__content-inner reveal-stagger">
           <div className="hero__badge reveal-child">מובילים בתחום המשפט בישראל</div>
           <h1 className="hero__title reveal-child">
@@ -409,65 +408,6 @@ function ContactSection() {
   )
 }
 
-function AgenticOSSection() {
-  return (
-    <section className="agentic section">
-      <div className="container">
-        <div className="section__header reveal-stagger">
-          <span className="agentic__badge reveal-child">💡 AGENTIC OS</span>
-          <h2 className="section__title reveal-child">פתרונות בינה מלאכותית מתקדמים</h2>
-          <p className="section__subtitle reveal-child">חדשנות טכנולוגית לשירותכם</p>
-        </div>
-        <div className="agentic__grid reveal-stagger">
-          <div className="agentic__card reveal-child">
-            <div className="agentic__card-header">
-              <span className="agentic__card-icon">🤖</span>
-              <h3>WeinrothAI<br />Legal Agent OS</h3>
-            </div>
-            <p className="agentic__card-desc">
-              מערכת סוכני AI אוטונומית לניהול מסמכים משפטיים, מחקר משפטי,
-              ניתוח חוזים וחוות דעת. הסוכנים לומדים את סגנון העבודה של המשרד
-              ומבצעים אוטומציה מלאה של תהליכים משפטיים חוזרים.
-            </p>
-            <ul className="agentic__card-features">
-              <li>ניתוח חוזים ותיקים משפטיים בזמן אמת</li>
-              <li>מחקר משפטי מבוסס AI עם אסמכתאות לפסיקה</li>
-              <li>אוטומציה של כתבי טענות ומסמכים חוזרים</li>
-              <li>ממשק ניהול תיקים חכם</li>
-            </ul>
-            <div className="agentic__card-footer">
-              <span className="agentic__card-price">החל מ-₪2,900/חודש</span>
-              <button className="btn btn--primary">לפרטים והדגמה</button>
-            </div>
-          </div>
-          <div className="agentic__card reveal-child agentic__card--featured">
-            <div className="agentic__card-badge">מומלץ</div>
-            <div className="agentic__card-header">
-              <span className="agentic__card-icon">🛡️</span>
-              <h3>ComplianceGuard<br />Regulatory Agent OS</h3>
-            </div>
-            <p className="agentic__card-desc">
-              מערכת ניטור רגולציה אוטונומית מבוססת AI העוקבת בזמן אמת אחר
-              שינויים בחקיקה, פסיקות בתי משפט, תקנות והוראות רגולטוריות –
-              ומתריעה על השפעות ישירות על הלקוחות.
-            </p>
-            <ul className="agentic__card-features">
-              <li>ניטור בזמן אמת של שינויים רגולטוריים</li>
-              <li>התרעות חכמות לפי תחום עיסוק הלקוח</li>
-              <li>דוחות ציות אוטומטיים (Compliance Reports)</li>
-              <li>אינטגרציה מלאה עם מערכת ניהול הלקוחות</li>
-            </ul>
-            <div className="agentic__card-footer">
-              <span className="agentic__card-price">החל מ-₪4,500/חודש</span>
-              <button className="btn btn--primary">לפרטים והדגמה</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function Footer() {
   return (
     <footer className="footer">
@@ -524,7 +464,6 @@ export default function App() {
         <PracticeSection />
         <TeamSection />
         <AchievementsSection />
-        <AgenticOSSection />
         <BlogSection />
         <ContactSection />
       </main>
