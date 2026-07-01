@@ -3,7 +3,12 @@ import './App.css'
 import content from './content.json'
 
 // Real content pulled from weinrothlaw.com (WP REST API). Hebrew team pages only (drop /en/ duplicates).
-const teamMembers = content.team.filter(m => !m.link.includes('/en/'))
+const teamMembers = (() => {
+  const list = content.team.filter(m => !m.link.includes('/en/'))
+  const i = list.findIndex(m => m.name.includes('יחיאל')) // founder — show first
+  if (i > 0) list.unshift(list.splice(i, 1)[0])
+  return list
+})()
 const blogPosts = content.posts.filter(p => p.image).slice(0, 9)
 const achievements = [
   { img: '/assets/wl/BDI-2025.png', label: 'BDI 2025' },
