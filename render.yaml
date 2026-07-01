@@ -1,0 +1,13 @@
+# Render Blueprint — static Vite site. Connect this repo on render.com once;
+# afterwards every git push to main auto-deploys.
+services:
+  - type: web
+    name: weinroth-premium
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    pullRequestPreviewsEnabled: true
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
