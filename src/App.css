@@ -93,6 +93,12 @@ body {
   transform: translateY(0);
 }
 
+/* Buttons / CTA blocks appear last with a soft scale (container-level → no hover conflict) */
+.reveal-stagger > .hero__actions.reveal-child:not(.revealed),
+.reveal-stagger > .contact__form.reveal-child:not(.revealed) {
+  transform: translateY(24px) scale(0.96);
+}
+
 /* Card rise effect on reveal */
 .practice__card.reveal-child.revealed,
 .team__card.reveal-child.revealed,

@@ -429,26 +429,26 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="container">
-        <div className="footer__grid">
-          <div className="footer__brand">
+        <div className="footer__grid reveal-stagger">
+          <div className="footer__brand reveal-child">
             <img src="/logo.png" alt="Dr. J. Weinroth & Co. Law Office" className="footer__logo-img" />
             <p className="footer__desc">משרד עורכי דין מוביל בישראל, משלב ניסיון רב-דורי עם חדשנות משפטית.</p>
           </div>
-          <div className="footer__links">
+          <div className="footer__links reveal-child">
             <h4>ניווט מהיר</h4>
             <a href="#about">אודות</a>
             <a href="#practice">תחומי פעילות</a>
             <a href="#team">הצוות</a>
             <a href="#blog">מאמרים</a>
           </div>
-          <div className="footer__links">
+          <div className="footer__links reveal-child">
             <h4>תחומי פעילות</h4>
             <a href="#practice">ליטיגציה</a>
             <a href="#practice">צווארון לבן</a>
             <a href="#practice">נדל"ן</a>
             <a href="#practice">משפט מסחרי</a>
           </div>
-          <div className="footer__links">
+          <div className="footer__links reveal-child">
             <h4>צור קשר</h4>
             <a href="tel:+97237181111">03-7181111</a>
             <a href="mailto:office@weinrothlaw.com">office@weinrothlaw.com</a>
