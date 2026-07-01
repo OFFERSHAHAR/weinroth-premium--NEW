@@ -457,12 +457,32 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 32px 24px;
+  padding: 0;
   transition: all var(--transition);
   cursor: default;
   position: relative;
   overflow: hidden;
 }
+.practice__card-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--bg-alt);
+}
+.practice__card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.2,0.8,0.2,1);
+}
+.practice__card:hover .practice__card-media img { transform: scale(1.06); }
+.practice__card-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(20,20,25,0.45) 0%, transparent 55%);
+}
+.practice__card-body { padding: 22px 24px 26px; }
 .practice__card::before {
   content: '';
   position: absolute;
@@ -480,7 +500,23 @@ body {
   border-color: rgba(201, 147, 62, 0.3);
   box-shadow: 0 12px 40px rgba(0,0,0,0.3);
 }
-.practice__card-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+.practice__card-icon {
+  position: absolute;
+  bottom: 12px;
+  inset-inline-start: 14px;
+  z-index: 1;
+  font-size: 1.35rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.16);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 12px;
+}
 .practice__card-title {
   font-weight: 700;
   color: var(--text-primary);

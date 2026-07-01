@@ -103,15 +103,15 @@ function Nav() {
 }
 
 const practiceAreas = [
-  { icon: '⚖️', title: 'ליטיגציה אזרחית ופלילית', desc: 'ייצוג בכל הערכאות השיפוטיות, ליטיגציה מסחרית מורכבת ובוררויות בינלאומיות מול ICC.' },
-  { icon: '🏛️', title: 'צווארון לבן', desc: 'ייצוג בתיקי ניירות ערך, מרמה, הלבנת הון ועבירות כלכליות מול רשויות האכיפה.' },
-  { icon: '🏗️', title: 'נדל"ן תכנון ובניה', desc: 'ליווי עסקאות נדל"ן מורכבות, תמ"א 38, פרויקטי תשתית והתחדשות עירונית.' },
-  { icon: '📊', title: 'משפט מסחרי', desc: 'ייעוץ לחברות ישראליות ובינלאומיות בהיבטים מסחריים, רגולציה ומיזוגים.' },
-  { icon: '🏦', title: 'בנקאות', desc: 'ייצוג וייעוץ בתחום הבנקאי, אשראי, ניירות ערך ורגולציה פיננסית.' },
-  { icon: '👥', title: 'תובענות ייצוגיות', desc: 'ניסיון רב בייצוג תובעים ונתבעים בתובענות ייצוגיות ונגזרות מורכבות.' },
-  { icon: '📋', title: 'משפט מנהלי', desc: 'עתירות לבג"ץ, מכרזים ציבוריים, רשויות מקומיות ורגולציה מנהלית.' },
-  { icon: '👨‍👩‍👧‍👧', title: 'דיני משפחה', desc: 'גירושין, הסכמי ממון, ירושה וצוואות, ייפוי כוח מתמשך ומעמד אישי.' },
-  { icon: '📝', title: 'דיני עבודה', desc: 'ייצוג מעסיקים ועובדים, הסכמים קיבוציים, תביעות והליכי פיטורים.' },
+  { icon: '⚖️', title: 'ליטיגציה אזרחית ופלילית', desc: 'ייצוג בכל הערכאות השיפוטיות, ליטיגציה מסחרית מורכבת ובוררויות בינלאומיות מול ICC.', img: '/assets/wl/practice-1.jpg' },
+  { icon: '🏛️', title: 'צווארון לבן', desc: 'ייצוג בתיקי ניירות ערך, מרמה, הלבנת הון ועבירות כלכליות מול רשויות האכיפה.', img: '/assets/wl/practice-2.jpg' },
+  { icon: '🏗️', title: 'נדל"ן תכנון ובניה', desc: 'ליווי עסקאות נדל"ן מורכבות, תמ"א 38, פרויקטי תשתית והתחדשות עירונית.', img: '/assets/wl/practice-3.jpg' },
+  { icon: '📊', title: 'משפט מסחרי', desc: 'ייעוץ לחברות ישראליות ובינלאומיות בהיבטים מסחריים, רגולציה ומיזוגים.', img: '/assets/wl/practice-4.jpg' },
+  { icon: '🏦', title: 'בנקאות', desc: 'ייצוג וייעוץ בתחום הבנקאי, אשראי, ניירות ערך ורגולציה פיננסית.', img: '/assets/wl/practice-5.jpg' },
+  { icon: '👥', title: 'תובענות ייצוגיות', desc: 'ניסיון רב בייצוג תובעים ונתבעים בתובענות ייצוגיות ונגזרות מורכבות.', img: '/assets/wl/practice-6.jpg' },
+  { icon: '📋', title: 'משפט מנהלי', desc: 'עתירות לבג"ץ, מכרזים ציבוריים, רשויות מקומיות ורגולציה מנהלית.', img: '/assets/wl/practice-7.jpg' },
+  { icon: '👨‍👩‍👧‍👧', title: 'דיני משפחה', desc: 'גירושין, הסכמי ממון, ירושה וצוואות, ייפוי כוח מתמשך ומעמד אישי.', img: '/assets/wl/practice-8.jpg' },
+  { icon: '📝', title: 'דיני עבודה', desc: 'ייצוג מעסיקים ועובדים, הסכמים קיבוציים, תביעות והליכי פיטורים.', img: '/assets/wl/practice-9.jpg' },
 ]
 
 const heroPhotos = [
@@ -270,10 +270,15 @@ function PracticeSection() {
         <div className="practice__grid reveal-stagger">
           {practiceAreas.map((area, i) => (
             <div key={i} className="practice__card reveal-child" style={{ '--stagger': i }}>
-              <div className="practice__card-icon">{area.icon}</div>
-              <h3 className="practice__card-title">{area.title}</h3>
-              <p className="practice__card-desc">{area.desc}</p>
-              <div className="practice__card-line"></div>
+              <div className="practice__card-media">
+                <img src={area.img} alt={area.title} loading="lazy" />
+                <span className="practice__card-icon">{area.icon}</span>
+              </div>
+              <div className="practice__card-body">
+                <h3 className="practice__card-title">{area.title}</h3>
+                <p className="practice__card-desc">{area.desc}</p>
+                <div className="practice__card-line"></div>
+              </div>
             </div>
           ))}
         </div>
