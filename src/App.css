@@ -323,7 +323,7 @@ body {
   position: absolute;
   top: 50%;
   right: 0;
-  transform: translateY(-50%);
+  transform: translateY(calc(-50% + 110px));
   z-index: 1;
   padding-inline-end: clamp(48px, 6vw, 72px);
 }
@@ -363,6 +363,10 @@ body {
 }
 .hero__title-line--accent {
   color: var(--gold-light);
+  -webkit-text-stroke: 1px rgba(255,255,255,0.45);
+  text-shadow:
+    0 0 1px rgba(255,255,255,0.55),
+    0 2px 18px rgba(0,0,0,0.18);
 }
 .hero__desc {
   display: inline-block;
