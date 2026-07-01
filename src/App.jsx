@@ -275,42 +275,36 @@ export function AboutSection({ showHeader = true }) {
   return (
     <section id="about" className="about section">
       <div className="container">
-        <div className="about__grid reveal-stagger">
-          <div className="about__content reveal-child reveal-stagger">
-            {showHeader && <h2 className="section__title reveal-child">מי אנחנו</h2>}
-            <p className="about__text">
-              מאז הקמתו בשנת 1974 על ידי ד"ר יעקב וינרוט ז"ל, ומזה למעלה מ-45 שנה,
-              משרד עורכי הדין ד"ר י. וינרוט ושות' הינו אחד המשרדים המוערכים והמובילים בישראל.
+        {showHeader && (
+          <div className="section__header reveal-stagger" style={{ textAlign: 'right' }}>
+            <h2 className="section__title reveal-child">מי אנחנו</h2>
+          </div>
+        )}
+        <div className="about__editorial reveal-stagger">
+          <div className="about__editorial-lead reveal-blur">
+            <p className="about__lead-text">
+              מאז הקמתו בשנת 1974 על ידי ד"ר יעקב וינרוט ז"ל, משרד עורכי הדין ד"ר י. וינרוט ושות'
+              הינו אחד המשרדים המוערכים והמובילים בישראל.
             </p>
+          </div>
+          <div className="about__editorial-media reveal-mask">
+            <img src="/assets/wl/about-new.webp" alt="משרד עורכי הדין ד&quot;ר י. וינרוט ושות'" loading="lazy" />
+          </div>
+          <div className="about__editorial-body reveal-child">
             <p className="about__text">
               משרדנו מתמחה במגוון תחומי המשפט המסחרי, האזרחי, הציבורי והפלילי. צוות המשרד מורכב
               מעורכי דין מובילים ועתירי ניסיון, המייצגים ומייעצים למגוון לקוחות, לרבות אנשי ציבור
-              ותקשורת ואנשי עסקים בכירים, גופים ציבוריים ופרטיים, תאגידים ורשויות מקומיות. המשרד
-              מייצג בפני כל הערכאות המשפטיות והמנהליות, לרבות במסגרות יישוב סכסוכים אלטרנטיביות,
-              כגון – בוררויות מסחריות בארץ ובחו"ל, גישור, וטריבונלים שיפוטיים ומעין שיפוטיים אחרים.
+              ותקשורת ואנשי עסקים בכירים, גופים ציבוריים ופרטיים, תאגידים ורשויות מקומיות.
             </p>
             <p className="about__text">
-              עורכי הדין במשרד מתאפיינים בנחישות, מסירות, ומקצועיות מהמעלה הראשונה. עבורנו, כל לקוח
-              הינו עולם ומלואו וטובתו ניצבת תמיד לנגד עינינו, ומעל הכול. המשרד מדורג דרך קבע כאחד
-              המשרדים המובילים בארץ וזוכה למקום של כבוד בקרב קהילת המשפט הרחבה, בזכות מחויבותו הבלתי
-              מתפשרת למצוינות משפטית ולהצלחת לקוחותיו. במהלך שנות פעילותו, ליווה המשרד רבות מהפרשיות
-              המורכבות והמתוקשרות ביותר בישראל.
+              עורכי הדין במשרד מתאפיינים בנחישות, מסירות, ומקצועיות מהמעלה הראשונה. המשרד מדורג דרך קבע כאחד
+              המשרדים המובילים בארץ בזכות מחויבותו הבלתי מתפשרת למצוינות משפטית.
             </p>
             <blockquote className="about__quote">
               בסוגיית של פשעי הצווארון הלבן וליטיגציה אזרחית ומסחרית, המוניטין של ד"ר י. וינרוט
-              ושות' הינו בלתי מעורער. ד"ר יעקב וינרוט הוא דמות מכובדת ביותר בקהילייה המשפטית.
-              <cite>מתוך מדריך הדירוג – European Legal 500</cite>
+              ושות' הינו בלתי מעורער.
+              <cite>European Legal 500</cite>
             </blockquote>
-            <div className="about__features">
-              <div className="about__feature"><span className="about__feature-icon">🎓</span><span>3 תארים במשפטים, ממשל ומדיניות ציבורית</span></div>
-              <div className="about__feature"><span className="about__feature-icon">🏆</span><span>יו"ר (משותף) הוועדה לאיסור הלבנת הון בלשכת עורכי הדין</span></div>
-              <div className="about__feature"><span className="about__feature-icon">🌐</span><span>ייצוג בבתי הדין הבינלאומיים ICC</span></div>
-            </div>
-          </div>
-          <div className="about__image reveal-child reveal-mask">
-            <div className="about__image-frame">
-              <img src="/assets/wl/about-new.webp" alt="משרד עורכי הדין ד&quot;ר י. וינרוט ושות'" className="about__image-photo" loading="lazy" />
-            </div>
           </div>
         </div>
       </div>
@@ -322,24 +316,22 @@ export function AboutTeaser() {
   return (
     <section className="about section">
       <div className="container">
-        <div className="about__grid reveal-stagger">
-          <div className="about__content reveal-child reveal-stagger">
-            <h2 className="section__title reveal-child">מי אנחנו</h2>
+        <div className="about__teaser reveal-stagger">
+          <div className="about__teaser-media reveal-mask">
+            <img src="/assets/wl/about-new.webp" alt="משרד עורכי הדין ד&quot;ר י. וינרוט ושות'" loading="lazy" />
+          </div>
+          <div className="about__teaser-body reveal-child">
+            <span className="about__teaser-label">מאז 1974</span>
+            <h2 className="about__teaser-title">משרד עורכי דין מוביל בישראל</h2>
             <p className="about__text">
-              מאז הקמתו בשנת 1974 על ידי ד"ר יעקב וינרוט ז"ל, משרד עורכי הדין ד"ר י. וינרוט ושות'
-              הינו אחד המשרדים המוערכים והמובילים בישראל — מתמחה בליטיגציה אזרחית, פלילית ומסחרית,
+              מאז הקמתו על ידי ד"ר יעקב וינרוט ז"ל, משרדנו מתמחה בליטיגציה אזרחית, פלילית ומסחרית,
               ומייצג את הלקוחות המובילים במשק.
             </p>
-            <div className="about__features reveal-child">
-              <div className="about__feature"><span className="about__feature-icon">🏆</span><span>מדורג דרך קבע כמשרד מוביל (BDI · DUNS 100)</span></div>
-              <div className="about__feature"><span className="about__feature-icon">🌐</span><span>ייצוג בבתי הדין הבינלאומיים ICC</span></div>
+            <div className="about__teaser-features">
+              <span>מדורג דרך קבע כמשרד מוביל (BDI · DUNS 100)</span>
+              <span>ייצוג בבתי הדין הבינלאומיים ICC</span>
             </div>
-            <Link to="/about" className="btn btn--outline reveal-child">קראו עוד עלינו</Link>
-          </div>
-          <div className="about__image reveal-child reveal-mask">
-            <div className="about__image-frame">
-              <img src="/assets/wl/about-new.webp" alt="משרד עורכי הדין ד&quot;ר י. וינרוט ושות'" className="about__image-photo" loading="lazy" />
-            </div>
+            <Link to="/about" className="btn btn--outline">קראו עוד עלינו</Link>
           </div>
         </div>
       </div>
@@ -348,6 +340,8 @@ export function AboutTeaser() {
 }
 
 export function PracticeSection({ showHeader = true, dark = true }) {
+  const [feat, ...rest] = practiceAreas
+  const [secA, secB, ...list] = rest
   return (
     <section id="practice" className={`practice section ${dark ? 'section--dark' : ''}`}>
       <div className="container">
@@ -357,21 +351,49 @@ export function PracticeSection({ showHeader = true, dark = true }) {
             <p className="section__subtitle reveal-child">מומחיות משפטית רחבה במגוון תחומים</p>
           </div>
         )}
-        <div className="practice__grid reveal-stagger">
-          {practiceAreas.map((area, i) => (
-            <Link key={area.slug} to={`/practice/${area.slug}`} className="practice__card reveal-child" style={{ '--stagger': i }}>
-              <div className="practice__card-media">
-                <img src={area.img} alt={area.title} loading="lazy" />
-                <span className="practice__card-icon">{area.icon}</span>
-              </div>
-              <div className="practice__card-body">
-                <h3 className="practice__card-title">{area.title}</h3>
-                <p className="practice__card-desc">{area.desc}</p>
-                <span className="practice__card-line"></span>
-                <span className="blog__card-link">פרטים נוספים →</span>
-              </div>
-            </Link>
-          ))}
+        <div className="prac">
+          {/* Featured — large hero area */}
+          <Link to={`/practice/${feat.slug}`} className="prac__featured reveal-mask">
+            <div className="prac__featured-img">
+              <img src={feat.img} alt={feat.title} loading="lazy" />
+            </div>
+            <div className="prac__featured-body">
+              <span className="prac__tag">תחום מוביל</span>
+              <h3 className="prac__featured-title">{feat.title}</h3>
+              <p className="prac__featured-desc">{feat.desc}</p>
+              <span className="prac__link">פרטים נוספים →</span>
+            </div>
+          </Link>
+
+          {/* Two secondary — side by side */}
+          <div className="prac__secondary">
+            {[secA, secB].map((area, i) => (
+              <Link key={area.slug} to={`/practice/${area.slug}`} className="prac__secondary-card reveal-up" style={{ '--stagger': i }}>
+                <div className="prac__secondary-img">
+                  <img src={area.img} alt={area.title} loading="lazy" />
+                </div>
+                <div className="prac__secondary-body">
+                  <h4 className="prac__secondary-title">{area.title}</h4>
+                  <p className="prac__secondary-desc">{area.desc}</p>
+                  <span className="prac__link">→</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Magazine list — numbered, minimal */}
+          <div className="prac__list reveal-stagger">
+            {list.map((area, i) => (
+              <Link key={area.slug} to={`/practice/${area.slug}`} className="prac__list-item reveal-child">
+                <span className="prac__list-num">{String(i + 4).padStart(2, '0')}</span>
+                <div className="prac__list-body">
+                  <h4 className="prac__list-title">{area.title}</h4>
+                  <p className="prac__list-desc">{area.desc}</p>
+                </div>
+                <span className="prac__list-arrow">→</span>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -388,17 +410,27 @@ export function TeamSection({ showHeader = true }) {
             <p className="section__subtitle reveal-child">הטובים ביותר בתחומם</p>
           </div>
         )}
-        <div className="team__grid reveal-stagger">
+        <div className="team__gallery reveal-stagger">
           {teamMembers.map((member, i) => (
-            <div key={i} className="team__card reveal-child" style={{ '--stagger': i }}>
-              <div className="team__card-avatar">
-                {member.photo
-                  ? <img src={member.photo} alt={member.name} className="team__card-photo" loading="lazy" />
-                  : <span className="team__card-avatar-text">{member.name.charAt(member.name.length - 2)}</span>}
-              </div>
-              <h3 className="team__card-name">{member.name}</h3>
-              {member.role && <span className="team__card-role">{member.role}</span>}
-              {member.bio && <p className="team__card-desc">{member.bio.slice(0, 140)}{member.bio.length > 140 ? '…' : ''}</p>}
+            <div key={i} className="team__figure reveal-child" style={{ '--stagger': i }}>
+              {member.photo ? (
+                <div className="team__figure-media">
+                  <img src={member.photo} alt={member.name} loading="lazy" />
+                  <div className="team__figure-overlay">
+                    <h3 className="team__figure-name">{member.name}</h3>
+                    {member.role && <span className="team__figure-role">{member.role}</span>}
+                    {member.bio && <p className="team__figure-bio">{member.bio.slice(0, 100)}{member.bio.length > 100 ? '…' : ''}</p>}
+                  </div>
+                </div>
+              ) : (
+                <div className="team__figure-media team__figure-media--empty">
+                  <span className="team__figure-initial">{member.name.charAt(member.name.length - 2)}</span>
+                  <div className="team__figure-overlay">
+                    <h3 className="team__figure-name">{member.name}</h3>
+                    {member.role && <span className="team__figure-role">{member.role}</span>}
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -417,12 +449,11 @@ export function AchievementsSection({ showHeader = true }) {
             <p className="section__subtitle reveal-child">מובילים בתחום המשפט בישראל זה שנים</p>
           </div>
         )}
-        <div className="achievements__grid reveal-stagger">
+        <div className="ach__wall reveal-stagger">
           {achievements.map((a, i) => (
-            <div key={i} className="achievements__badge reveal-child" style={{ '--stagger': i }}>
-              <img src={a.img} alt={a.label} className="achievements__badge-img" loading="lazy" />
-              <span className="achievements__badge-text">{a.label}</span>
-              <span className="achievements__badge-sub">משרד מוביל</span>
+            <div key={i} className="ach__badge reveal-scale" style={{ '--stagger': i }}>
+              <img src={a.img} alt={a.label} className="ach__badge-img" loading="lazy" />
+              <span className="ach__badge-label">{a.label}</span>
             </div>
           ))}
         </div>
@@ -433,6 +464,7 @@ export function AchievementsSection({ showHeader = true }) {
 
 export function ArticlesSection({ showHeader = true, limit }) {
   const posts = limit ? blogPosts.slice(0, limit) : allPosts
+  const [featured, ...rest] = posts
   return (
     <section id="articles" className="blog section">
       <div className="container">
@@ -442,19 +474,30 @@ export function ArticlesSection({ showHeader = true, limit }) {
             <p className="section__subtitle reveal-child">עדכונים משפטיים ותובנות מקצועיות</p>
           </div>
         )}
-        <div className="blog__grid reveal-stagger">
-          {posts.map((post, i) => (
-            <a key={i} href={post.link} target="_blank" rel="noopener" className="blog__card reveal-child" style={{ '--stagger': i % 9 }}>
-              {post.image && <div className="blog__card-media"><img src={post.image} alt={post.title} loading="lazy" /></div>}
-              <div className="blog__card-body">
-                <span className="blog__card-cat">{post.date}</span>
-                <h3 className="blog__card-title">{post.title}</h3>
-                {post.excerpt && <p className="blog__card-excerpt">{post.excerpt.slice(0, 110)}…</p>}
-                <div className="blog__card-line"></div>
-                <span className="blog__card-link">קרא עוד →</span>
+        <div className="art__wrap reveal-stagger">
+          {featured && (
+            <a href={featured.link} target="_blank" rel="noopener" className="art__featured reveal-mask">
+              {featured.image && <div className="art__featured-media"><img src={featured.image} alt={featured.title} loading="lazy" /></div>}
+              <div className="art__featured-body">
+                <span className="art__meta">{featured.date}</span>
+                <h3 className="art__featured-title">{featured.title}</h3>
+                {featured.excerpt && <p className="art__text">{featured.excerpt.slice(0, 140)}…</p>}
+                <span className="art__link">קרא עוד →</span>
               </div>
             </a>
-          ))}
+          )}
+          <div className="art__grid">
+            {rest.map((post, i) => (
+              <a key={i} href={post.link} target="_blank" rel="noopener" className="art__card reveal-up" style={{ '--stagger': i }}>
+                {post.image && <div className="art__card-media"><img src={post.image} alt={post.title} loading="lazy" /></div>}
+                <div className="art__card-body">
+                  <span className="art__meta">{post.date}</span>
+                  <h3 className="art__card-title">{post.title}</h3>
+                  <span className="art__link">→</span>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </section>
