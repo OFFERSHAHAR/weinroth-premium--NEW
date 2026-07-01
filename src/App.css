@@ -323,7 +323,7 @@ body {
   position: absolute;
   top: 50%;
   right: 0;
-  transform: translateY(calc(-50% + 110px));
+  transform: translateY(calc(-50% + 220px));
   z-index: 1;
   padding-inline-end: clamp(48px, 6vw, 72px);
 }
