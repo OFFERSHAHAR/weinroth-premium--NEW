@@ -364,7 +364,7 @@ function BlogSection() {
 }
 
 function ContactSection() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '', message: '' })
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value })
 
   return (
@@ -407,8 +407,12 @@ function ContactSection() {
           </div>
           <form className="contact__form reveal-child" onSubmit={e => e.preventDefault()}>
             <div className="contact__form-group">
-              <label className="contact__form-label">שם מלא</label>
-              <input className="contact__form-input" name="name" value={form.name} onChange={handleChange} placeholder="ישראל ישראלי" />
+              <label className="contact__form-label">שם פרטי</label>
+              <input className="contact__form-input" name="firstName" value={form.firstName} onChange={handleChange} placeholder="ישראל" />
+            </div>
+            <div className="contact__form-group">
+              <label className="contact__form-label">שם משפחה</label>
+              <input className="contact__form-input" name="lastName" value={form.lastName} onChange={handleChange} placeholder="ישראלי" />
             </div>
             <div className="contact__form-group">
               <label className="contact__form-label">אימייל</label>
