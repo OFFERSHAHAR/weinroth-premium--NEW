@@ -177,7 +177,7 @@ body {
   height: 84px;
   display: flex;
   align-items: center;
-  background: rgba(20,20,20,0.28);
+  background: rgba(18,18,18,0.06);
   backdrop-filter: blur(28px) saturate(160%);
   -webkit-backdrop-filter: blur(28px) saturate(160%);
   border-bottom: 1px solid rgba(255,255,255,0.12);
@@ -386,7 +386,7 @@ body {
   margin: 28px 0 36px;
   font-weight: 400;
 }
-.hero__actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 72px; }
+.hero__actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 72px; }
 .hero__stats {
   display: flex;
   gap: 40px;
@@ -445,6 +445,8 @@ body {
   height: 560px;
   object-fit: cover;
   display: block;
+  border-radius: 24px;
+  filter: contrast(1.04) saturate(1.03);
 }
 .about__editorial-body {
   grid-column: 2;
@@ -477,11 +479,17 @@ body {
   gap: 64px;
   align-items: center;
 }
+.about__teaser-media {
+  border-radius: 24px;
+  overflow: hidden;
+}
 .about__teaser-media img {
   width: 100%;
   height: 500px;
   object-fit: cover;
   display: block;
+  border-radius: inherit;
+  filter: contrast(1.04) saturate(1.03);
 }
 .about__teaser-label {
   font-size: 0.7rem;
@@ -523,7 +531,7 @@ body {
   position: relative;
 }
 .prac__featured-img {
-  border-radius: 0;
+  border-radius: 24px;
   overflow: hidden;
   position: relative;
 }
@@ -533,6 +541,8 @@ body {
   object-fit: cover;
   display: block;
   transition: transform 0.8s cubic-bezier(0.2,0.8,0.2,1);
+  filter: contrast(1.04) saturate(1.03);
+  border-radius: inherit;
 }
 .prac__featured:hover .prac__featured-img img { transform: scale(1.04); }
 .prac__tag {
@@ -584,6 +594,7 @@ body {
 .prac__secondary-img {
   overflow: hidden;
   position: relative;
+  border-radius: 20px;
 }
 .prac__secondary-img img {
   width: 100%;
@@ -591,6 +602,8 @@ body {
   object-fit: cover;
   display: block;
   transition: transform 0.8s cubic-bezier(0.2,0.8,0.2,1);
+  filter: contrast(1.04) saturate(1.03);
+  border-radius: inherit;
 }
 .prac__secondary-card:hover .prac__secondary-img img { transform: scale(1.04); }
 .prac__secondary-title {
@@ -665,6 +678,9 @@ body {
   aspect-ratio: 3 / 4;
   overflow: hidden;
   cursor: pointer;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.72);
+  box-shadow: 0 24px 70px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.7);
 }
 .team__figure-media img {
   width: 100%;
@@ -672,6 +688,8 @@ body {
   object-fit: cover;
   object-position: top center;
   transition: transform 0.8s cubic-bezier(0.2,0.8,0.2,1);
+  filter: contrast(1.04) saturate(1.03);
+  border-radius: inherit;
 }
 .team__figure-media:hover img { transform: scale(1.06); }
 .team__figure-media--empty {
@@ -722,7 +740,11 @@ body {
   gap: 8px;
 }
 .ach__badge {
-  background: var(--bg-card);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 16px;
   padding: 32px 16px;
   text-align: center;
   transition: all 0.5s ease;
@@ -734,7 +756,8 @@ body {
   min-height: 180px;
 }
 .ach__badge:hover {
-  background: rgba(201,147,62,0.04);
+  background: rgba(231,190,98,0.04);
+  border-color: rgba(231,190,98,0.10);
 }
 .ach__badge-img {
   height: 80px;
@@ -867,6 +890,7 @@ body {
 }
 .art__featured-media {
   overflow: hidden;
+  border-radius: 24px;
 }
 .art__featured-media img {
   width: 100%;
@@ -874,6 +898,8 @@ body {
   object-fit: cover;
   display: block;
   transition: transform 0.8s cubic-bezier(0.2,0.8,0.2,1);
+  filter: contrast(1.04) saturate(1.03);
+  border-radius: inherit;
 }
 .art__featured:hover .art__featured-media img { transform: scale(1.04); }
 .art__meta {
@@ -920,12 +946,15 @@ body {
 .art__card-media {
   overflow: hidden;
   aspect-ratio: 16 / 9;
+  border-radius: 16px;
 }
 .art__card-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.6s cubic-bezier(0.2,0.8,0.2,1);
+  filter: contrast(1.04) saturate(1.03);
+  border-radius: inherit;
 }
 .art__card:hover .art__card-media img { transform: scale(1.04); }
 .art__card-title {
