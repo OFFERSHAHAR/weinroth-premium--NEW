@@ -219,15 +219,17 @@ function Stat({ target, suffix, label }) {
 export function HeroSection() {
   const [photoIndex, setPhotoIndex] = useState(0)
   const [mouse, setMouse] = useState({ x: 0, y: 0 })
+  const heroRef = useRef(null)
+  const touchX = useRef(null)
+
+  const nextPhoto = () => setPhotoIndex(prev => {
+    let next
+    do { next = Math.floor(Math.random() * heroPhotos.length) } while (next === prev)
+    return next
+  })
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setPhotoIndex(prev => {
-        let next
-        do { next = Math.floor(Math.random() * heroPhotos.length) } while (next === prev)
-        return next
-      })
-    }, 5000)
+    const interval = setInterval(nextPhoto, 5000)
     return () => clearInterval(interval)
   }, [])
 
@@ -239,8 +241,35 @@ export function HeroSection() {
     return () => window.removeEventListener('mousemove', onMouse)
   }, [])
 
+  useEffect(() => {
+    const el = heroRef.current
+    if (!el) return
+    const onTouchStart = (e) => { touchX.current = e.touches[0].clientX }
+    const onTouchEnd = (e) => {
+      const dx = e.changedTouches[0].clientX - touchX.current
+      if (Math.abs(dx) > 50) nextPhoto()
+    }
+    el.addEventListener('touchstart', onTouchStart, { passive: true })
+    el.addEventListener('touchend', onTouchEnd, { passive: true })
+    return () => { el.removeEventListener('touchstart', onTouchStart); el.removeEventListener('touchend', onTouchEnd) }
+  }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const el = heroRef.current
+    if (!el) return
+    const onScroll = () => {
+      const rect = el.getBoundingClientRect()
+      const progress = Math.max(0, Math.min(1, -rect.top / rect.height))
+      el.style.setProperty('--scroll-progress', progress)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
-    <section className="hero">
+    <section className="hero" ref={heroRef}>
       <div className="hero__bg">
         {heroPhotos.map((url, i) => (
           <div key={i} className={`hero__photo ${i === photoIndex ? 'hero__photo--active' : ''}`} style={{ backgroundImage: `url(${url})` }} />
