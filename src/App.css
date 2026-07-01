@@ -238,6 +238,24 @@ body {
 .nav__links a:hover { color: #D6A23A; transform: translateY(-1px); }
 .nav__links a.is-active { color: #D6A23A; }
 .nav__links a.is-active::after { width: 80%; }
+
+/* Card links — no underlines */
+.practice__card,
+.blog__card,
+.team__card,
+.achievements__badge,
+.blog__card a,
+.practice__card a {
+  text-decoration: none;
+  border-bottom: none;
+}
+.practice__card:hover,
+.blog__card:hover,
+.team__card:hover,
+.achievements__badge:hover {
+  text-decoration: none;
+  border-bottom: none;
+}
 .nav__actions {
   display: flex;
   align-items: center;
