@@ -7,7 +7,9 @@ services:
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
     pullRequestPreviewsEnabled: true
+    # Multipage SSG: every route is a real prerendered file (nested index.html),
+    # so no SPA catch-all rewrite. Unknown paths fall through to the 404 page.
     routes:
       - type: rewrite
-        source: /*
-        destination: /index.html
+        source: /404
+        destination: /404.html

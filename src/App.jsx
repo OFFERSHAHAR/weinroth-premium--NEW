@@ -1,16 +1,20 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 import './App.css'
 import content from './content.json'
 
 // Real content pulled from weinrothlaw.com (WP REST API). Hebrew team pages only (drop /en/ duplicates).
-const teamMembers = (() => {
+export const teamMembers = (() => {
   const list = content.team.filter(m => !m.link.includes('/en/'))
   const i = list.findIndex(m => m.name.includes('יחיאל')) // founder — show first
   if (i > 0) list.unshift(list.splice(i, 1)[0])
   return list
 })()
-const blogPosts = content.posts.filter(p => p.image).slice(0, 9)
-const achievements = [
+
+export const allPosts = content.posts
+export const blogPosts = content.posts.filter(p => p.image)
+
+export const achievements = [
   { img: '/assets/wl/BDI-2025.png', label: 'BDI 2025' },
   { img: '/assets/wl/DUNS-2025.webp', label: 'DUNS 2025' },
   { img: '/assets/wl/DUNS-2024.png', label: 'DUNS 2024' },
@@ -19,10 +23,26 @@ const achievements = [
   { img: '/assets/wl/Bdi-001-23_leading-comp-stamp_625x347_P-2.jpg', label: 'BDI Leading 2023' },
 ]
 
+export const practiceAreas = [
+  { slug: 'litigation', icon: '⚖️', title: 'ליטיגציה אזרחית ופלילית', desc: 'ייצוג בכל הערכאות השיפוטיות, ליטיגציה מסחרית מורכבת ובוררויות בינלאומיות מול ICC.', img: '/assets/wl/practice-1.jpg' },
+  { slug: 'white-collar', icon: '🏛️', title: 'צווארון לבן', desc: 'ייצוג בתיקי ניירות ערך, מרמה, הלבנת הון ועבירות כלכליות מול רשויות האכיפה.', img: '/assets/wl/practice-2.jpg' },
+  { slug: 'real-estate', icon: '🏗️', title: 'נדל"ן תכנון ובניה', desc: 'ליווי עסקאות נדל"ן מורכבות, תמ"א 38, פרויקטי תשתית והתחדשות עירונית.', img: '/assets/wl/practice-3.jpg' },
+  { slug: 'commercial', icon: '📊', title: 'משפט מסחרי', desc: 'ייעוץ לחברות ישראליות ובינלאומיות בהיבטים מסחריים, רגולציה ומיזוגים.', img: '/assets/wl/practice-4.jpg' },
+  { slug: 'banking', icon: '🏦', title: 'בנקאות', desc: 'ייצוג וייעוץ בתחום הבנקאי, אשראי, ניירות ערך ורגולציה פיננסית.', img: '/assets/wl/practice-5.jpg' },
+  { slug: 'class-actions', icon: '👥', title: 'תובענות ייצוגיות', desc: 'ניסיון רב בייצוג תובעים ונתבעים בתובענות ייצוגיות ונגזרות מורכבות.', img: '/assets/wl/practice-6.jpg' },
+  { slug: 'administrative', icon: '📋', title: 'משפט מנהלי', desc: 'עתירות לבג"ץ, מכרזים ציבוריים, רשויות מקומיות ורגולציה מנהלית.', img: '/assets/wl/practice-7.jpg' },
+  { slug: 'family', icon: '👨‍👩‍👧‍👧', title: 'דיני משפחה', desc: 'גירושין, הסכמי ממון, ירושה וצוואות, ייפוי כוח מתמשך ומעמד אישי.', img: '/assets/wl/practice-8.jpg' },
+  { slug: 'labor', icon: '📝', title: 'דיני עבודה', desc: 'ייצוג מעסיקים ועובדים, הסכמים קיבוציים, תביעות והליכי פיטורים.', img: '/assets/wl/practice-9.jpg' },
+]
+
+const heroPhotos = ['/hero1.png', '/hero2.png', '/hero4.png', '/hero5.png']
+
 const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-function useReveal() {
+// Re-runs when `key` (route path) changes so each page's elements are re-observed.
+function useReveal(key) {
   useEffect(() => {
+    if (typeof window === 'undefined') return
     if (prefersReducedMotion) {
       document.querySelectorAll('.reveal, .reveal-up, .reveal-scale, .reveal-blur, .reveal-mask, .reveal-child').forEach(el => el.classList.add('revealed'))
       return
@@ -33,8 +53,7 @@ function useReveal() {
           if (entry.isIntersecting) {
             const el = entry.target
             if (el.classList.contains('reveal-stagger')) {
-              const children = el.querySelectorAll('.reveal-child')
-              children.forEach((child, i) => {
+              el.querySelectorAll('.reveal-child').forEach((child, i) => {
                 child.style.transitionDelay = `${i * 80}ms`
                 child.classList.add('revealed')
               })
@@ -48,12 +67,12 @@ function useReveal() {
     )
     document.querySelectorAll('.reveal, .reveal-up, .reveal-scale, .reveal-blur, .reveal-mask, .reveal-stagger').forEach(el => observer.observe(el))
     return () => observer.disconnect()
-  }, [])
+  }, [key])
 }
 
-function useParallax() {
+function useParallax(key) {
   useEffect(() => {
-    if (prefersReducedMotion) return
+    if (typeof window === 'undefined' || prefersReducedMotion) return
     const handleScroll = () => {
       document.querySelectorAll('.parallax').forEach(el => {
         const rect = el.getBoundingClientRect()
@@ -65,34 +84,29 @@ function useParallax() {
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [key])
 }
 
 function Nav() {
   const [open, setOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60)
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  const { pathname } = useLocation()
+  const close = () => setOpen(false)
 
   return (
-    <nav className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
+    <nav className="nav">
       <div className="nav__inner">
         <div className="nav__logo">
-          <img src="/logo-white.png" alt="Dr. J. Weinroth & Co. Law Office" className="nav__logo-img" />
-          <a href="#contact" className="nav__cta" onClick={() => setOpen(false)}>יצירת קשר</a>
+          <Link to="/" onClick={close} className="nav__logo-link" aria-label="דף הבית">
+            <img src="/logo-white.png" alt="Dr. J. Weinroth & Co. Law Office" className="nav__logo-img" />
+          </Link>
         </div>
         <div className={`nav__links ${open ? 'nav__links--open' : ''}`}>
-          <a href="#about" onClick={() => setOpen(false)}>אודות</a>
-          <a href="#practice" onClick={() => setOpen(false)}>תחומי פעילות</a>
-          <a href="#team" onClick={() => setOpen(false)}>הצוות</a>
-          <a href="#achievements" onClick={() => setOpen(false)}>הישגים</a>
-          <a href="#blog" onClick={() => setOpen(false)}>מאמרים</a>
+          {[['/about', 'אודות'], ['/practice', 'תחומי פעילות'], ['/team', 'הצוות'], ['/achievements', 'הישגים'], ['/articles', 'מאמרים']].map(([to, label]) => (
+            <Link key={to} to={to} onClick={close} className={pathname === to || pathname.startsWith(to + '/') ? 'is-active' : undefined}>{label}</Link>
+          ))}
         </div>
         <div className="nav__actions">
+          <Link to="/contact" className="nav__cta" onClick={close}>יצירת קשר</Link>
           <button className={`nav__toggle ${open ? 'nav__toggle--open' : ''}`} onClick={() => setOpen(!open)} aria-label="תפריט">
             <span></span><span></span><span></span>
           </button>
@@ -102,24 +116,81 @@ function Nav() {
   )
 }
 
-const practiceAreas = [
-  { icon: '⚖️', title: 'ליטיגציה אזרחית ופלילית', desc: 'ייצוג בכל הערכאות השיפוטיות, ליטיגציה מסחרית מורכבת ובוררויות בינלאומיות מול ICC.', img: '/assets/wl/practice-1.jpg' },
-  { icon: '🏛️', title: 'צווארון לבן', desc: 'ייצוג בתיקי ניירות ערך, מרמה, הלבנת הון ועבירות כלכליות מול רשויות האכיפה.', img: '/assets/wl/practice-2.jpg' },
-  { icon: '🏗️', title: 'נדל"ן תכנון ובניה', desc: 'ליווי עסקאות נדל"ן מורכבות, תמ"א 38, פרויקטי תשתית והתחדשות עירונית.', img: '/assets/wl/practice-3.jpg' },
-  { icon: '📊', title: 'משפט מסחרי', desc: 'ייעוץ לחברות ישראליות ובינלאומיות בהיבטים מסחריים, רגולציה ומיזוגים.', img: '/assets/wl/practice-4.jpg' },
-  { icon: '🏦', title: 'בנקאות', desc: 'ייצוג וייעוץ בתחום הבנקאי, אשראי, ניירות ערך ורגולציה פיננסית.', img: '/assets/wl/practice-5.jpg' },
-  { icon: '👥', title: 'תובענות ייצוגיות', desc: 'ניסיון רב בייצוג תובעים ונתבעים בתובענות ייצוגיות ונגזרות מורכבות.', img: '/assets/wl/practice-6.jpg' },
-  { icon: '📋', title: 'משפט מנהלי', desc: 'עתירות לבג"ץ, מכרזים ציבוריים, רשויות מקומיות ורגולציה מנהלית.', img: '/assets/wl/practice-7.jpg' },
-  { icon: '👨‍👩‍👧‍👧', title: 'דיני משפחה', desc: 'גירושין, הסכמי ממון, ירושה וצוואות, ייפוי כוח מתמשך ומעמד אישי.', img: '/assets/wl/practice-8.jpg' },
-  { icon: '📝', title: 'דיני עבודה', desc: 'ייצוג מעסיקים ועובדים, הסכמים קיבוציים, תביעות והליכי פיטורים.', img: '/assets/wl/practice-9.jpg' },
-]
+function Footer() {
+  return (
+    <footer className="footer">
+      <div className="container">
+        <div className="footer__grid reveal-stagger">
+          <div className="footer__brand reveal-child">
+            <img src="/logo.png" alt="Dr. J. Weinroth & Co. Law Office" className="footer__logo-img" />
+            <p className="footer__desc">משרד עורכי דין מוביל בישראל, משלב ניסיון רב-דורי עם חדשנות משפטית.</p>
+          </div>
+          <div className="footer__links reveal-child">
+            <h4>ניווט מהיר</h4>
+            <Link to="/about">אודות</Link>
+            <Link to="/practice">תחומי פעילות</Link>
+            <Link to="/team">הצוות</Link>
+            <Link to="/articles">מאמרים</Link>
+          </div>
+          <div className="footer__links reveal-child">
+            <h4>תחומי פעילות</h4>
+            <Link to="/practice/litigation">ליטיגציה</Link>
+            <Link to="/practice/white-collar">צווארון לבן</Link>
+            <Link to="/practice/real-estate">נדל"ן</Link>
+            <Link to="/practice/commercial">משפט מסחרי</Link>
+          </div>
+          <div className="footer__links reveal-child">
+            <h4>צור קשר</h4>
+            <a href="tel:+97237181111">03-7181111</a>
+            <a href="mailto:office@weinrothlaw.com">office@weinrothlaw.com</a>
+            <a href="https://www.facebook.com/j.weinrothlaw" target="_blank" rel="noopener">פייסבוק</a>
+          </div>
+        </div>
+        <div className="footer__bottom">
+          <span>All Rights Reserved © Dr J. Weinroth & Co.</span>
+          <div className="footer__legal">
+            <a href="#">הצהרת נגישות</a>
+            <a href="#">מדיניות פרטיות</a>
+            <a href="#">תנאי שימוש</a>
+          </div>
+        </div>
+        <div className="footer__credit" dir="ltr">
+          Site created &amp; managed by <strong>AGENT HUB GURU O&amp;O</strong>
+        </div>
+      </div>
+    </footer>
+  )
+}
 
-const heroPhotos = [
-  '/hero1.png',
-  '/hero2.png',
-  '/hero4.png',
-  '/hero5.png',
-]
+export function Layout() {
+  const { pathname } = useLocation()
+  useReveal(pathname)
+  useParallax(pathname)
+  useEffect(() => {
+    if (typeof window !== 'undefined') window.scrollTo(0, 0)
+  }, [pathname])
+  return (
+    <div className="app">
+      <Nav />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  )
+}
+
+// Inner-page header (H1) that clears the fixed nav.
+export function PageHeader({ title, subtitle }) {
+  return (
+    <header className="pagehead">
+      <div className="container reveal-stagger">
+        <h1 className="pagehead__title reveal-child">{title}</h1>
+        {subtitle && <p className="pagehead__sub reveal-child">{subtitle}</p>}
+      </div>
+    </header>
+  )
+}
 
 function Stat({ target, suffix, label }) {
   const ref = useRef(null)
@@ -145,10 +216,9 @@ function Stat({ target, suffix, label }) {
   return <div className="hero__stat"><span ref={ref} className="hero__stat-num">{val}</span><span className="hero__stat-label">{label}</span></div>
 }
 
-function HeroSection() {
+export function HeroSection() {
   const [photoIndex, setPhotoIndex] = useState(0)
   const [mouse, setMouse] = useState({ x: 0, y: 0 })
-  const stat1 = useRef(null); const stat2 = useRef(null); const stat3 = useRef(null)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -163,9 +233,7 @@ function HeroSection() {
 
   useEffect(() => {
     const onMouse = (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 6
-      const y = (e.clientY / window.innerHeight - 0.5) * 4
-      setMouse({ x, y })
+      setMouse({ x: (e.clientX / window.innerWidth - 0.5) * 6, y: (e.clientY / window.innerHeight - 0.5) * 4 })
     }
     window.addEventListener('mousemove', onMouse, { passive: true })
     return () => window.removeEventListener('mousemove', onMouse)
@@ -189,8 +257,8 @@ function HeroSection() {
           </h1>
           <p className="hero__desc reveal-child">ניסיון של למעלה מ-50 שנה בליטיגציה אזרחית, פלילית ומסחרית. מייצגים את הלקוחות המובילים בישראל.</p>
           <div className="hero__actions reveal-child">
-            <a href="#contact" className="btn btn--primary">ייעוץ ראשוני</a>
-            <a href="#practice" className="btn btn--outline">תחומי פעילות</a>
+            <Link to="/contact" className="btn btn--primary">ייעוץ ראשוני</Link>
+            <Link to="/practice" className="btn btn--outline">תחומי פעילות</Link>
           </div>
           <div className="hero__stats reveal-child">
             <Stat target={50} suffix="+" label="שנות ניסיון" />
@@ -203,13 +271,13 @@ function HeroSection() {
   )
 }
 
-function AboutSection() {
+export function AboutSection({ showHeader = true }) {
   return (
     <section id="about" className="about section">
       <div className="container">
         <div className="about__grid reveal-stagger">
           <div className="about__content reveal-child reveal-stagger">
-            <h2 className="section__title reveal-child">מי אנחנו</h2>
+            {showHeader && <h2 className="section__title reveal-child">מי אנחנו</h2>}
             <p className="about__text">
               מאז הקמתו בשנת 1974 על ידי ד"ר יעקב וינרוט ז"ל, ומזה למעלה מ-45 שנה,
               משרד עורכי הדין ד"ר י. וינרוט ושות' הינו אחד המשרדים המוערכים והמובילים בישראל.
@@ -234,18 +302,9 @@ function AboutSection() {
               <cite>מתוך מדריך הדירוג – European Legal 500</cite>
             </blockquote>
             <div className="about__features">
-              <div className="about__feature">
-                <span className="about__feature-icon">🎓</span>
-                <span>3 תארים במשפטים, ממשל ומדיניות ציבורית</span>
-              </div>
-              <div className="about__feature">
-                <span className="about__feature-icon">🏆</span>
-                <span>יו"ר (משותף) הוועדה לאיסור הלבנת הון בלשכת עורכי הדין</span>
-              </div>
-              <div className="about__feature">
-                <span className="about__feature-icon">🌐</span>
-                <span>ייצוג בבתי הדין הבינלאומיים ICC</span>
-              </div>
+              <div className="about__feature"><span className="about__feature-icon">🎓</span><span>3 תארים במשפטים, ממשל ומדיניות ציבורית</span></div>
+              <div className="about__feature"><span className="about__feature-icon">🏆</span><span>יו"ר (משותף) הוועדה לאיסור הלבנת הון בלשכת עורכי הדין</span></div>
+              <div className="about__feature"><span className="about__feature-icon">🌐</span><span>ייצוג בבתי הדין הבינלאומיים ICC</span></div>
             </div>
           </div>
           <div className="about__image reveal-child reveal-mask">
@@ -259,17 +318,48 @@ function AboutSection() {
   )
 }
 
-function PracticeSection() {
+export function AboutTeaser() {
   return (
-    <section id="practice" className="practice section section--dark">
+    <section className="about section">
       <div className="container">
-        <div className="section__header reveal-stagger">
-          <h2 className="section__title reveal-child">תחומי פעילות</h2>
-          <p className="section__subtitle reveal-child">מומחיות משפטית רחבה במגוון תחומים</p>
+        <div className="about__grid reveal-stagger">
+          <div className="about__content reveal-child reveal-stagger">
+            <h2 className="section__title reveal-child">מי אנחנו</h2>
+            <p className="about__text">
+              מאז הקמתו בשנת 1974 על ידי ד"ר יעקב וינרוט ז"ל, משרד עורכי הדין ד"ר י. וינרוט ושות'
+              הינו אחד המשרדים המוערכים והמובילים בישראל — מתמחה בליטיגציה אזרחית, פלילית ומסחרית,
+              ומייצג את הלקוחות המובילים במשק.
+            </p>
+            <div className="about__features reveal-child">
+              <div className="about__feature"><span className="about__feature-icon">🏆</span><span>מדורג דרך קבע כמשרד מוביל (BDI · DUNS 100)</span></div>
+              <div className="about__feature"><span className="about__feature-icon">🌐</span><span>ייצוג בבתי הדין הבינלאומיים ICC</span></div>
+            </div>
+            <Link to="/about" className="btn btn--outline reveal-child">קראו עוד עלינו</Link>
+          </div>
+          <div className="about__image reveal-child reveal-mask">
+            <div className="about__image-frame">
+              <img src="/assets/wl/about-office.jpg" alt="משרד עורכי הדין ד&quot;ר י. וינרוט ושות'" className="about__image-photo" loading="lazy" />
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
+  )
+}
+
+export function PracticeSection({ showHeader = true, dark = true }) {
+  return (
+    <section id="practice" className={`practice section ${dark ? 'section--dark' : ''}`}>
+      <div className="container">
+        {showHeader && (
+          <div className="section__header reveal-stagger">
+            <h2 className="section__title reveal-child">תחומי פעילות</h2>
+            <p className="section__subtitle reveal-child">מומחיות משפטית רחבה במגוון תחומים</p>
+          </div>
+        )}
         <div className="practice__grid reveal-stagger">
           {practiceAreas.map((area, i) => (
-            <div key={i} className="practice__card reveal-child" style={{ '--stagger': i }}>
+            <Link key={area.slug} to={`/practice/${area.slug}`} className="practice__card reveal-child" style={{ '--stagger': i }}>
               <div className="practice__card-media">
                 <img src={area.img} alt={area.title} loading="lazy" />
                 <span className="practice__card-icon">{area.icon}</span>
@@ -277,9 +367,10 @@ function PracticeSection() {
               <div className="practice__card-body">
                 <h3 className="practice__card-title">{area.title}</h3>
                 <p className="practice__card-desc">{area.desc}</p>
-                <div className="practice__card-line"></div>
+                <span className="practice__card-line"></span>
+                <span className="blog__card-link">פרטים נוספים →</span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
@@ -287,14 +378,16 @@ function PracticeSection() {
   )
 }
 
-function TeamSection() {
+export function TeamSection({ showHeader = true }) {
   return (
     <section id="team" className="team section">
       <div className="container">
-        <div className="section__header reveal-stagger">
-          <h2 className="section__title reveal-child">הצוות המשפטי</h2>
-          <p className="section__subtitle reveal-child">הטובים ביותר בתחומם</p>
-        </div>
+        {showHeader && (
+          <div className="section__header reveal-stagger">
+            <h2 className="section__title reveal-child">הצוות המשפטי</h2>
+            <p className="section__subtitle reveal-child">הטובים ביותר בתחומם</p>
+          </div>
+        )}
         <div className="team__grid reveal-stagger">
           {teamMembers.map((member, i) => (
             <div key={i} className="team__card reveal-child" style={{ '--stagger': i }}>
@@ -314,14 +407,16 @@ function TeamSection() {
   )
 }
 
-function AchievementsSection() {
+export function AchievementsSection({ showHeader = true }) {
   return (
     <section id="achievements" className="achievements section section--dark">
       <div className="container">
-        <div className="section__header reveal-stagger">
-          <h2 className="section__title reveal-child">הישגים ודירוגים</h2>
-          <p className="section__subtitle reveal-child">מובילים בתחום המשפט בישראל זה שנים</p>
-        </div>
+        {showHeader && (
+          <div className="section__header reveal-stagger">
+            <h2 className="section__title reveal-child">הישגים ודירוגים</h2>
+            <p className="section__subtitle reveal-child">מובילים בתחום המשפט בישראל זה שנים</p>
+          </div>
+        )}
         <div className="achievements__grid reveal-stagger">
           {achievements.map((a, i) => (
             <div key={i} className="achievements__badge reveal-child" style={{ '--stagger': i }}>
@@ -336,17 +431,20 @@ function AchievementsSection() {
   )
 }
 
-function BlogSection() {
+export function ArticlesSection({ showHeader = true, limit }) {
+  const posts = limit ? blogPosts.slice(0, limit) : allPosts
   return (
-    <section id="blog" className="blog section">
+    <section id="articles" className="blog section">
       <div className="container">
-        <div className="section__header reveal-stagger">
-          <h2 className="section__title reveal-child">מאמרים וחדשות</h2>
-          <p className="section__subtitle reveal-child">עדכונים משפטיים ותובנות מקצועיות</p>
-        </div>
+        {showHeader && (
+          <div className="section__header reveal-stagger">
+            <h2 className="section__title reveal-child">מאמרים וחדשות</h2>
+            <p className="section__subtitle reveal-child">עדכונים משפטיים ותובנות מקצועיות</p>
+          </div>
+        )}
         <div className="blog__grid reveal-stagger">
-          {blogPosts.map((post, i) => (
-            <a key={i} href={post.link} target="_blank" rel="noopener" className="blog__card reveal-child" style={{ '--stagger': i }}>
+          {posts.map((post, i) => (
+            <a key={i} href={post.link} target="_blank" rel="noopener" className="blog__card reveal-child" style={{ '--stagger': i % 9 }}>
               {post.image && <div className="blog__card-media"><img src={post.image} alt={post.title} loading="lazy" /></div>}
               <div className="blog__card-body">
                 <span className="blog__card-cat">{post.date}</span>
@@ -363,7 +461,7 @@ function BlogSection() {
   )
 }
 
-function ContactSection() {
+export function ContactSection({ showHeader = true }) {
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '', message: '' })
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value })
 
@@ -372,36 +470,24 @@ function ContactSection() {
       <div className="container">
         <div className="contact__grid reveal-stagger">
           <div className="contact__info reveal-child reveal-stagger">
-            <h2 className="section__title reveal-child">צור קשר</h2>
+            {showHeader && <h2 className="section__title reveal-child">צור קשר</h2>}
             <p className="contact__text reveal-child">השאירו פרטים ונחזור אליכם בהקדם</p>
             <div className="contact__details">
               <div className="contact__detail">
                 <span className="contact__detail-icon">📍</span>
-                <div>
-                  <strong>כתובת</strong>
-                  <span>הירקון 3-5, מגדל LYFE B, קומה 33, בני ברק</span>
-                </div>
+                <div><strong>כתובת</strong><span>הירקון 3-5, מגדל LYFE B, קומה 33, בני ברק</span></div>
               </div>
               <div className="contact__detail">
                 <span className="contact__detail-icon">📞</span>
-                <div>
-                  <strong>טלפון</strong>
-                  <a href="tel:+97237181111">03-7181111</a>
-                </div>
+                <div><strong>טלפון</strong><a href="tel:+97237181111">03-7181111</a></div>
               </div>
               <div className="contact__detail">
                 <span className="contact__detail-icon">✉️</span>
-                <div>
-                  <strong>דוא"ל</strong>
-                  <a href="mailto:office@weinrothlaw.com">office@weinrothlaw.com</a>
-                </div>
+                <div><strong>דוא"ל</strong><a href="mailto:office@weinrothlaw.com">office@weinrothlaw.com</a></div>
               </div>
               <div className="contact__detail">
                 <span className="contact__detail-icon">💬</span>
-                <div>
-                  <strong>פייסבוק</strong>
-                  <a href="https://www.facebook.com/j.weinrothlaw" target="_blank" rel="noopener">משרד וינרוט</a>
-                </div>
+                <div><strong>פייסבוק</strong><a href="https://www.facebook.com/j.weinrothlaw" target="_blank" rel="noopener">משרד וינרוט</a></div>
               </div>
             </div>
           </div>
@@ -434,69 +520,15 @@ function ContactSection() {
   )
 }
 
-function Footer() {
+// Compact call-to-action band (used on the home page instead of the full form).
+export function ContactCTA() {
   return (
-    <footer className="footer">
-      <div className="container">
-        <div className="footer__grid reveal-stagger">
-          <div className="footer__brand reveal-child">
-            <img src="/logo.png" alt="Dr. J. Weinroth & Co. Law Office" className="footer__logo-img" />
-            <p className="footer__desc">משרד עורכי דין מוביל בישראל, משלב ניסיון רב-דורי עם חדשנות משפטית.</p>
-          </div>
-          <div className="footer__links reveal-child">
-            <h4>ניווט מהיר</h4>
-            <a href="#about">אודות</a>
-            <a href="#practice">תחומי פעילות</a>
-            <a href="#team">הצוות</a>
-            <a href="#blog">מאמרים</a>
-          </div>
-          <div className="footer__links reveal-child">
-            <h4>תחומי פעילות</h4>
-            <a href="#practice">ליטיגציה</a>
-            <a href="#practice">צווארון לבן</a>
-            <a href="#practice">נדל"ן</a>
-            <a href="#practice">משפט מסחרי</a>
-          </div>
-          <div className="footer__links reveal-child">
-            <h4>צור קשר</h4>
-            <a href="tel:+97237181111">03-7181111</a>
-            <a href="mailto:office@weinrothlaw.com">office@weinrothlaw.com</a>
-            <a href="https://www.facebook.com/j.weinrothlaw" target="_blank" rel="noopener">פייסבוק</a>
-          </div>
-        </div>
-        <div className="footer__bottom">
-          <span>All Rights Reserved © Dr J. Weinroth & Co.</span>
-          <div className="footer__legal">
-            <a href="#">הצהרת נגישות</a>
-            <a href="#">מדיניות פרטיות</a>
-            <a href="#">תנאי שימוש</a>
-          </div>
-        </div>
-        <div className="footer__credit" dir="ltr">
-          Site created &amp; managed by <strong>AGENT HUB GURU O&amp;O</strong>
-        </div>
+    <section className="ctaband section section--dark">
+      <div className="container ctaband__inner reveal-stagger">
+        <h2 className="section__title reveal-child">זקוקים לייעוץ משפטי?</h2>
+        <p className="section__subtitle reveal-child">צוות המשרד עומד לרשותכם. השאירו פרטים ונחזור אליכם בהקדם.</p>
+        <div className="reveal-child"><Link to="/contact" className="btn btn--primary">צרו קשר עכשיו</Link></div>
       </div>
-    </footer>
-  )
-}
-
-export default function App() {
-  useReveal()
-  useParallax()
-
-  return (
-    <div className="app">
-      <Nav />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <PracticeSection />
-        <TeamSection />
-        <AchievementsSection />
-        <BlogSection />
-        <ContactSection />
-      </main>
-      <Footer />
-    </div>
+    </section>
   )
 }

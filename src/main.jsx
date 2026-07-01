@@ -1,16 +1,15 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+import { ViteReactSSG } from 'vite-react-ssg'
+import { routes } from './routes.jsx'
+import './App.css'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+export const createRoot = ViteReactSSG(
+  { routes },
+  ({ isClient }) => {
+    // Register the service worker so the site is installable / full-screen on mobile.
+    if (isClient && 'serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {})
+      })
+    }
+  }
 )
-
-// Register service worker so the site is installable / works full-screen on mobile.
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => {})
-  })
-}
