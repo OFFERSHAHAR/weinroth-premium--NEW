@@ -922,6 +922,24 @@ body {
 }
 .footer__credit strong { color: var(--gold-dark); font-weight: 700; }
 
+.about__quote {
+  margin: 24px 0 4px;
+  padding-inline-start: 18px;
+  border-inline-start: 3px solid var(--gold);
+  color: var(--text);
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.85;
+}
+.about__quote cite {
+  display: block;
+  margin-top: 10px;
+  font-style: normal;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold-dark);
+}
+
 .about__image-photo {
   display: block;
   width: 100%;
