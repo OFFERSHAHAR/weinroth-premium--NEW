@@ -1119,11 +1119,12 @@ body {
     padding: 24px 22px calc(24px + env(safe-area-inset-bottom));
     padding-inline-end: 22px;
   }
-  .hero__desc { font-size: 16px; margin: 18px 0 26px; }
-  .hero__actions { margin-bottom: 32px; }
-  .hero__stats { gap: 24px; flex-wrap: wrap; }
-  .hero__actions { flex-direction: column; }
+  .hero__title-line { padding: 3px 16px; margin: 2px 0; border-radius: 12px; font-size: clamp(32px, 10vw, 44px); }
+  .hero__badge { padding: 4px 14px; }
+  .hero__desc { padding: 8px 16px; font-size: 15px; margin: 8px 0; }
+  .hero__actions { padding: 6px 14px; gap: 10px; margin-bottom: 20px; flex-direction: column; }
   .hero__actions .btn { width: 100%; justify-content: center; }
+  .hero__stats { padding: 8px 18px; gap: 20px; flex-wrap: wrap; }
 
   .about__editorial { grid-template-columns: 1fr; gap: 32px; }
   .about__editorial-media { grid-column: 1; grid-row: auto; }
