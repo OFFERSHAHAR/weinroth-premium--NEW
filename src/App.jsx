@@ -309,7 +309,7 @@ export function AboutSection({ showHeader = true }) {
           </div>
           <div className="about__image reveal-child reveal-mask">
             <div className="about__image-frame">
-              <img src="/assets/wl/about-office.jpg" alt="משרד עורכי הדין ד&quot;ר י. וינרוט ושות'" className="about__image-photo" loading="lazy" />
+              <img src="/assets/wl/about-new.webp" alt="משרד עורכי הדין ד&quot;ר י. וינרוט ושות'" className="about__image-photo" loading="lazy" />
             </div>
           </div>
         </div>
@@ -338,7 +338,7 @@ export function AboutTeaser() {
           </div>
           <div className="about__image reveal-child reveal-mask">
             <div className="about__image-frame">
-              <img src="/assets/wl/about-office.jpg" alt="משרד עורכי הדין ד&quot;ר י. וינרוט ושות'" className="about__image-photo" loading="lazy" />
+              <img src="/assets/wl/about-new.webp" alt="משרד עורכי הדין ד&quot;ר י. וינרוט ושות'" className="about__image-photo" loading="lazy" />
             </div>
           </div>
         </div>
