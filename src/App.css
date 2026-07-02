@@ -1285,11 +1285,38 @@ body {
 }
 
 /* Chat Widget */
-.chat-fab {
+.chat-fab-wrap {
   position: fixed;
   bottom: 28px;
   left: 28px;
   z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.chat-fab-tooltip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  background: rgba(231,190,98,0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(231,190,98,0.3);
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 6px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: all 0.25s ease;
+  pointer-events: none;
+  font-family: 'Heebo', sans-serif;
+}
+.chat-fab-wrap:hover .chat-fab-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+.chat-fab {
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -1471,11 +1498,12 @@ body {
     width: auto;
     max-height: 60vh;
   }
-  .chat-fab {
+  .chat-fab-wrap {
     left: 16px;
     bottom: 20px;
+  }
+  .chat-fab {
     width: 52px;
     height: 52px;
-    font-size: 1.3rem;
   }
 }
