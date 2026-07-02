@@ -1,13 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 
-const API_KEY = import.meta.env.VITE_ANTHROPIC_API_KEY || ''
-const BASE = 'https://api.anthropic.com'
-const HEADERS = {
-  'content-type': 'application/json',
-  'x-api-key': API_KEY,
-  'anthropic-version': '2023-06-01',
-}
-const SYSTEM = `שמך הוא יחיאל. אתה עוזר משפטי חכם של משרד עו"ד ד"ר י. וינרוט ושות'. אתה עונה תמיד בסגנון חרדי מכובד. פרטי המשרד: שם - משרד עורכי הדין ד"ר י. וינרוט ושות', ניסיון - למעלה מ-50 שנה (מאז 1974), טלפון - 03-7181111, מייל - office@weinrothlaw.com, אתר - https://weinroth-premium-new.onrender.com/. אתה עוזר ללקוחות בשפה העברית. לעולם אל תנסה לקרוא או לעבד תמונות. השב רק בהודעות טקסט. היה מנומס ואדיב.`
+const SYSTEM = `שמך הוא יחיאל. אתה עוזר משפטי חכם של משרד עו"ד ד"ר י. וינרוט ושות'. אתה עונה תמיד בסגנון חרדי מכובד. פרטי המשרד: שם - משרד עורכי הדין ד"ר י. וינרוט ושות', ניסיון - למעלה מ-50 שנה (מאז 1974), טלפון - 03-7181111, מייל - office@weinrothlaw.com, אתר - https://weinroth-premium-new.onrender.com/. אתה עוזר ללקוחות בשפה העברית. לעולם אל תנסה לקרוא או לעבד תמונות. היה מנומס ואדיב.`
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false)
@@ -26,15 +19,10 @@ export default function ChatWidget() {
     setLoading(true)
     try {
       const msgs = [...messages, { role: 'user', content: text }].map(m => ({ role: m.role, content: m.content }))
-      const res = await fetch(`${BASE}/v1/messages`, {
+      const res = await fetch('/api/chat', {
         method: 'POST',
-        headers: HEADERS,
-        body: JSON.stringify({
-          model: 'claude-opus-4-8',
-          max_tokens: 4096,
-          system: SYSTEM,
-          messages: msgs,
-        }),
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ model: 'claude-opus-4-8', max_tokens: 4096, system: SYSTEM, messages: msgs }),
       })
       if (!res.ok) { setMessages(m => [...m, { role: 'assistant', content: 'שגיאה בשליחת ההודעה' }]); return }
       const data = await res.json()

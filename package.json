@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite-react-ssg build",
+    "start": "node server.js",
     "preview": "vite preview"
   },
   "dependencies": {
+    "express": "^4.22.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.30.4",
