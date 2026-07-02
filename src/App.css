@@ -1052,9 +1052,11 @@ body {
 .contact { background: var(--bg-alt); }
 .contact__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
 }
+.contact__media { display: flex; align-items: center; }
+.contact__media-img { width: 100%; height: auto; border-radius: 16px; object-fit: cover; }
 .contact__text {
   color: var(--text-muted);
   margin: 16px 0 32px;

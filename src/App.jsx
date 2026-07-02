@@ -610,6 +610,9 @@ export function ContactSection({ showHeader = true }) {
             </div>
             <button type="submit" className="btn btn--primary contact__form-btn">שלח הודעה</button>
           </form>
+          <div className="contact__media reveal-child">
+            <img src="/contact-office.png" alt="משרד" className="contact__media-img" />
+          </div>
         </div>
       </div>
     </section>
