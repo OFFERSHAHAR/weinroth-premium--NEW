@@ -74,7 +74,10 @@ export default function ChatWidget() {
       </button>
       <div className={`chat-panel ${open ? 'chat-panel--open' : ''}`}>
         <div className="chat-header">
-          <span>יחיאל — ייעוץ משפטי</span>
+          <div className="chat-header-info">
+            <img src="/YEHIEL.png" alt="יחיאל" className="chat-avatar" />
+            <span>יחיאל — ייעוץ משפטי</span>
+          </div>
           <button onClick={() => setOpen(false)} className="chat-close">✕</button>
         </div>
         <div className="chat-body">

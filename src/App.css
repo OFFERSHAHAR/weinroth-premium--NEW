@@ -1292,8 +1292,22 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 22px;
+  padding: 14px 18px;
   background: rgba(255,255,255,0.04);
+}
+.chat-header-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chat-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(231,190,98,0.3);
+  flex-shrink: 0;
+}
   border-bottom: 1px solid rgba(255,255,255,0.06);
   font-weight: 600;
   color: #fff;
