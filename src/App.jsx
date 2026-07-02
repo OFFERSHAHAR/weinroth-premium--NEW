@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import './App.css'
 import content from './content.json'
+import ChatWidget from './ChatWidget'
 
 // Real content pulled from weinrothlaw.com (WP REST API). Hebrew team pages only (drop /en/ duplicates).
 export const teamMembers = (() => {
@@ -176,6 +177,7 @@ export function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <ChatWidget />
     </div>
   )
 }
