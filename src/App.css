@@ -362,11 +362,13 @@ body {
 
 /* Hero */
 .hero {
-  min-height: 760px;
+  min-height: max(100dvh, 700px);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  justify-content: flex-end;
   position: relative;
   overflow: visible;
+  padding-bottom: 60px;
 }
 .hero__bg {
   position: absolute;
@@ -377,7 +379,7 @@ body {
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center 28%;
+  background-position: center center;
   opacity: 0;
   transition: opacity 1.2s ease;
 }
@@ -396,10 +398,7 @@ body {
   pointer-events: none;
 }
 .hero__content {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(calc(-50% + 220px));
+  position: relative;
   z-index: 1;
   padding-inline-end: clamp(48px, 6vw, 72px);
   opacity: calc(1 - var(--scroll-progress, 0) * 0.6);
