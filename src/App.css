@@ -1349,8 +1349,8 @@ body {
   transform: translateY(0);
 }
 .chat-fab {
-  width: 68px;
-  height: 68px;
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
   border: 2px solid rgba(231,190,98,0.5);
   padding: 0;
