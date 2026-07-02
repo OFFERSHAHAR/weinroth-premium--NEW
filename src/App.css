@@ -1317,8 +1317,8 @@ body {
   transform: translateY(0);
 }
 .chat-fab {
-  width: 60px;
-  height: 60px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
   border: 2px solid rgba(231,190,98,0.5);
   padding: 0;
@@ -1503,7 +1503,7 @@ body {
     bottom: 20px;
   }
   .chat-fab {
-    width: 52px;
-    height: 52px;
+    width: 60px;
+    height: 60px;
   }
 }
