@@ -1188,7 +1188,9 @@ body {
   .hero {
     align-items: flex-end;
     padding-bottom: 0;
+    min-height: 100dvh;
   }
+  .hero__photo { background-position: center center; }
   .hero__content {
     position: relative;
     top: auto;
