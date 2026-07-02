@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation } from 'react-router-dom'
 import './App.css'
 import content from './content.json'
 import ChatWidget from './ChatWidget'
+import { LangProvider, useLang, LANGUAGES } from './i18n.jsx'
 
 // Real content pulled from weinrothlaw.com (WP REST API). Hebrew team pages only (drop /en/ duplicates).
 export const teamMembers = (() => {
@@ -90,25 +91,39 @@ function useParallax(key) {
 
 function Nav() {
   const [open, setOpen] = useState(false)
+  const [langOpen, setLangOpen] = useState(false)
   const { pathname } = useLocation()
+  const { t, lang, setLang, dir } = useLang()
   const close = () => setOpen(false)
 
   return (
     <nav className="nav">
       <div className="nav__inner">
         <div className="nav__logo">
-          <Link to="/" onClick={close} className="nav__logo-link" aria-label="דף הבית">
+          <Link to="/" onClick={close} className="nav__logo-link" aria-label={t('nav.about')}>
             <img src="/logo-white.png" alt="Dr. J. Weinroth & Co. Law Office" className="nav__logo-img" />
           </Link>
         </div>
         <div className={`nav__links ${open ? 'nav__links--open' : ''}`}>
-          {[['/about', 'אודות'], ['/practice', 'תחומי פעילות'], ['/team', 'הצוות'], ['/achievements', 'הישגים'], ['/articles', 'מאמרים']].map(([to, label]) => (
-            <Link key={to} to={to} onClick={close} className={pathname === to || pathname.startsWith(to + '/') ? 'is-active' : undefined}>{label}</Link>
+          {[['/about', 'nav.about'], ['/practice', 'nav.practice'], ['/team', 'nav.team'], ['/achievements', 'nav.achievements'], ['/articles', 'nav.articles']].map(([to, key]) => (
+            <Link key={to} to={to} onClick={close} className={pathname === to || pathname.startsWith(to + '/') ? 'is-active' : undefined}>{t(key)}</Link>
           ))}
         </div>
         <div className="nav__actions">
-          <Link to="/contact" className="nav__cta" onClick={close}>יצירת קשר</Link>
-          <button className={`nav__toggle ${open ? 'nav__toggle--open' : ''}`} onClick={() => setOpen(!open)} aria-label="תפריט">
+          <Link to="/contact" className="nav__cta" onClick={close}>{t('nav.contact')}</Link>
+          <div className="nav__lang-wrap">
+            <button className={`nav__lang ${langOpen ? 'nav__lang--open' : ''}`} onClick={() => setLangOpen(!langOpen)} aria-label="Language">
+              {LANGUAGES[lang]?.label || lang}
+            </button>
+            {langOpen && <div className="nav__lang-dropdown">
+              {Object.entries(LANGUAGES).map(([code, l]) => (
+                <button key={code} className={`nav__lang-opt ${code === lang ? 'nav__lang-opt--active' : ''}`} onClick={() => { setLang(code); setLangOpen(false); document.documentElement.dir = l.dir }}>
+                  {l.label}
+                </button>
+              ))}
+            </div>}
+          </div>
+          <button className={`nav__toggle ${open ? 'nav__toggle--open' : ''}`} onClick={() => setOpen(!open)} aria-label={t('nav.about')}>
             <span></span><span></span><span></span>
           </button>
         </div>
@@ -118,30 +133,31 @@ function Nav() {
 }
 
 function Footer() {
+  const { t } = useLang()
   return (
     <footer className="footer">
       <div className="container">
         <div className="footer__grid reveal-stagger">
           <div className="footer__brand reveal-child">
             <img src="/logo.png" alt="Dr. J. Weinroth & Co. Law Office" className="footer__logo-img" />
-            <p className="footer__desc">משרד עורכי דין מוביל בישראל, משלב ניסיון רב-דורי עם חדשנות משפטית.</p>
+            <p className="footer__desc">{t('footer.desc')}</p>
           </div>
           <div className="footer__links reveal-child">
-            <h4>ניווט מהיר</h4>
-            <Link to="/about">אודות</Link>
-            <Link to="/practice">תחומי פעילות</Link>
-            <Link to="/team">הצוות</Link>
-            <Link to="/articles">מאמרים</Link>
+            <h4>{t('footer.quickNav')}</h4>
+            <Link to="/about">{t('nav.about')}</Link>
+            <Link to="/practice">{t('nav.practice')}</Link>
+            <Link to="/team">{t('nav.team')}</Link>
+            <Link to="/articles">{t('nav.articles')}</Link>
           </div>
           <div className="footer__links reveal-child">
-            <h4>תחומי פעילות</h4>
+            <h4>{t('nav.practice')}</h4>
             <Link to="/practice/litigation">ליטיגציה</Link>
             <Link to="/practice/white-collar">צווארון לבן</Link>
             <Link to="/practice/real-estate">נדל"ן</Link>
             <Link to="/practice/commercial">משפט מסחרי</Link>
           </div>
           <div className="footer__links reveal-child">
-            <h4>צור קשר</h4>
+            <h4>{t('footer.contactTitle')}</h4>
             <a href="tel:+97237181111">03-7181111</a>
             <a href="mailto:office@weinrothlaw.com">office@weinrothlaw.com</a>
             <a href="https://www.facebook.com/j.weinrothlaw" target="_blank" rel="noopener">פייסבוק</a>
@@ -150,9 +166,9 @@ function Footer() {
         <div className="footer__bottom">
           <span>All Rights Reserved © Dr J. Weinroth & Co.</span>
           <div className="footer__legal">
-            <a href="#">הצהרת נגישות</a>
-            <a href="#">מדיניות פרטיות</a>
-            <a href="#">תנאי שימוש</a>
+            <a href="#">{t('footer.accessibility')}</a>
+            <a href="#">{t('footer.privacy')}</a>
+            <a href="#">{t('footer.terms')}</a>
           </div>
         </div>
         <div className="footer__credit" dir="ltr">
@@ -163,13 +179,14 @@ function Footer() {
   )
 }
 
-export function Layout() {
+function LayoutBody() {
   const { pathname } = useLocation()
+  const { dir } = useLang()
   useReveal(pathname)
   useParallax(pathname)
   useEffect(() => {
-    if (typeof window !== 'undefined') window.scrollTo(0, 0)
-  }, [pathname])
+    if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.dir = dir }
+  }, [pathname, dir])
   return (
     <div className="app">
       <Nav />
@@ -180,6 +197,10 @@ export function Layout() {
       <ChatWidget />
     </div>
   )
+}
+
+export function Layout() {
+  return <LangProvider><LayoutBody /></LangProvider>
 }
 
 // Inner-page header (H1) that clears the fixed nav.
@@ -219,6 +240,7 @@ function Stat({ target, suffix, label }) {
 }
 
 export function HeroSection() {
+  const { t } = useLang()
   const [photoIndex, setPhotoIndex] = useState(0)
   const [mouse, setMouse] = useState({ x: 0, y: 0 })
   const heroRef = useRef(null)
@@ -281,20 +303,20 @@ export function HeroSection() {
       </div>
       <div className="hero__content">
         <div className="hero__content-inner reveal-stagger">
-          <div className="hero__badge reveal-child">מובילים בתחום המשפט בישראל</div>
+          <div className="hero__badge reveal-child">{t('hero.badge')}</div>
           <h1 className="hero__title reveal-child">
-            <span className="hero__title-line">משרד עו"ד</span>
-            <span className="hero__title-line hero__title-line--accent">ד"ר י. וינרוט ושות'</span>
+            <span className="hero__title-line">{t('hero.title1')}</span>
+            <span className="hero__title-line hero__title-line--accent">{t('hero.title2')}</span>
           </h1>
-          <p className="hero__desc reveal-child">ניסיון של למעלה מ-50 שנה בליטיגציה אזרחית, פלילית ומסחרית. מייצגים את הלקוחות המובילים בישראל.</p>
+          <p className="hero__desc reveal-child">{t('hero.desc')}</p>
           <div className="hero__actions reveal-child">
-            <Link to="/contact" className="btn btn--primary">ייעוץ ראשוני</Link>
-            <Link to="/practice" className="btn btn--outline">תחומי פעילות</Link>
+            <Link to="/contact" className="btn btn--primary">{t('hero.cta1')}</Link>
+            <Link to="/practice" className="btn btn--outline">{t('hero.cta2')}</Link>
           </div>
           <div className="hero__stats reveal-child">
-            <Stat target={50} suffix="+" label="שנות ניסיון" />
-            <Stat target={15} suffix="+" label="עורכי דין" />
-            <Stat target={5} suffix="" label="דירוגי BDI" />
+            <Stat target={50} suffix="+" label={t('hero.stat1')} />
+            <Stat target={15} suffix="+" label={t('hero.stat2')} />
+            <Stat target={5} suffix="" label={t('hero.stat3')} />
           </div>
         </div>
       </div>
@@ -596,12 +618,13 @@ export function ContactSection({ showHeader = true }) {
 
 // Compact call-to-action band (used on the home page instead of the full form).
 export function ContactCTA() {
+  const { t } = useLang()
   return (
     <section className="ctaband section section--dark">
       <div className="container ctaband__inner reveal-stagger">
-        <h2 className="section__title reveal-child">זקוקים לייעוץ משפטי?</h2>
-        <p className="section__subtitle reveal-child">צוות המשרד עומד לרשותכם. השאירו פרטים ונחזור אליכם בהקדם.</p>
-        <div className="reveal-child"><Link to="/contact" className="btn btn--primary">צרו קשר עכשיו</Link></div>
+        <h2 className="section__title reveal-child">{t('ctaBand.title')}</h2>
+        <p className="section__subtitle reveal-child">{t('ctaBand.desc')}</p>
+        <div className="reveal-child"><Link to="/contact" className="btn btn--primary">{t('ctaBand.cta')}</Link></div>
       </div>
     </section>
   )
