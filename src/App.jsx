@@ -101,7 +101,7 @@ function Nav() {
       <div className="nav__inner">
         <div className="nav__logo">
           <Link to="/" onClick={close} className="nav__logo-link" aria-label={t('nav.about')}>
-            <img src="/logo-white.png" alt="Dr. J. Weinroth & Co. Law Office" className="nav__logo-img" />
+            <img src="/logo-black.png" alt="Dr. J. Weinroth & Co. Law Office" className="nav__logo-img" />
           </Link>
         </div>
         <div className={`nav__links ${open ? 'nav__links--open' : ''}`}>
