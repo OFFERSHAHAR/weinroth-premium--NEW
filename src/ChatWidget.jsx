@@ -70,7 +70,7 @@ export default function ChatWidget() {
   return (
     <>
       <button className={`chat-fab ${open ? 'chat-fab--open' : ''}`} onClick={() => setOpen(!open)} aria-label="צ'אט">
-        {open ? '✕' : '💬'}
+        <img src="/YEHIEL.png" alt="יחיאל" className="chat-fab-img" />
       </button>
       <div className={`chat-panel ${open ? 'chat-panel--open' : ''}`}>
         <div className="chat-header">
