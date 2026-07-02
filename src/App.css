@@ -203,9 +203,9 @@ body {
   display: inline-block;
 }
 .header-logo img {
-  height: 68px;
+  height: 60px;
   width: auto;
-  max-width: 250px;
+  max-width: 220px;
   object-fit: contain;
   display: block;
 }
@@ -225,10 +225,10 @@ body {
   100% { background-position: -80% 0; }
 }
 @media (max-width: 1024px) {
-  .header-logo img { height: 56px; }
+  .header-logo img { height: 52px; }
 }
 @media (max-width: 768px) {
-  .header-logo img { height: 48px; }
+  .header-logo img { height: 44px; }
 }
 .nav__links {
   display: flex;
