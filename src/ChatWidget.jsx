@@ -21,23 +21,22 @@ export default function ChatWidget() {
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
 
   const pollForResponse = useCallback(async () => {
-    const params = new URLSearchParams({ order: 'asc', limit: '20' })
-    if (lastEventId.current) params.set('created_at[gt]', lastEventId.current)
     try {
-      const res = await fetch(`${BASE}/v1/sessions/${SESSION_ID}/events?${params}`, { headers: HEADERS })
+      const res = await fetch(`${BASE}/v1/sessions/${SESSION_ID}/events?order=asc`, { headers: HEADERS })
       if (!res.ok) return false
       const data = await res.json()
+      let found = false
       for (const event of data.data || []) {
-        const ts = event.processed_at || event.created_at
-        if (ts && (!lastEventId.current || ts > lastEventId.current)) {
-          lastEventId.current = ts
-        }
-        if (event.type === 'agent.message' && event.content?.[0]?.text) {
-          setMessages(m => [...m, { role: 'assistant', content: event.content[0].text }])
-          return true
+        if (event.id && (!lastEventId.current || event.id > lastEventId.current)) {
+          lastEventId.current = event.id
+          if (event.type === 'agent.message' && event.content?.[0]?.text) {
+            setMessages(m => [...m, { role: 'assistant', content: event.content[0].text }])
+            found = true
+          }
         }
       }
-    } catch {}
+      return found
+    } catch (e) { console.error('poll error', e) }
     return false
   }, [])
 
