@@ -46,7 +46,7 @@ export default function ChatWidget() {
         <div className="chat-header">
           <div className="chat-header-info">
             <img src="/YEHIEL.png" alt="יחיאל" className="chat-avatar" />
-            <span>יחיאל — ייעוץ משפטי</span>
+            <span className="chat-header-name">יחיאל — ייעוץ משפטי</span>
           </div>
           <button onClick={() => setOpen(false)} className="chat-close">✕</button>
         </div>
@@ -62,7 +62,7 @@ export default function ChatWidget() {
           <input className="chat-input" value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && send()} placeholder="הקלד הודעה..." dir="rtl" />
           <button className="chat-send" onClick={send} disabled={loading || !input.trim()}>שלח</button>
         </div>
-        <div className="chat-watermark">PATENTED AI AGENT BY O&amp;0 AGENT HUB GURU</div>
+        <div className="chat-watermark">PATENTED AI AGENT BY O&amp;O AGENT HUB GURU- PATENT N#_0076-O&amp;O_IL</div>
       </div>
     </>
   )

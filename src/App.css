@@ -212,18 +212,19 @@ body {
 .header-logo::before {
   content: '';
   position: absolute;
-  inset: -3px;
-  border-radius: 4px;
-  background: conic-gradient(from 0deg, rgba(231,190,98,0.8), transparent 50deg, transparent 310deg, rgba(231,190,98,0.8));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  inset: -2px;
+  border-radius: 6px;
+  border: 1.5px solid transparent;
+  background: conic-gradient(from 0deg, transparent 15deg, rgba(231,190,98,0.6) 25deg, rgba(231,190,98,0.9) 30deg, rgba(231,190,98,0.6) 35deg, transparent 45deg, transparent 315deg, rgba(231,190,98,0.6) 325deg, rgba(231,190,98,0.9) 330deg, rgba(231,190,98,0.6) 335deg, transparent 345deg) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  padding: 2px;
-  animation: border-chase 3s linear infinite;
+  animation: logo-glow 4s ease-in-out infinite;
   pointer-events: none;
 }
-@keyframes border-chase {
-  to { transform: rotate(360deg); }
+@keyframes logo-glow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 @media (max-width: 1024px) {
   .header-logo img { height: 52px; }
@@ -1420,6 +1421,12 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+.chat-header-name {
+  font-weight: 700;
+  color: rgba(255,255,255,0.95);
+  text-shadow: 0 1px 8px rgba(231,190,98,0.25);
+  letter-spacing: 0.3px;
 }
 .chat-avatar {
   width: 36px;
