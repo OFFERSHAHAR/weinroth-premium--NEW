@@ -1549,3 +1549,14 @@ body {
     height: 64px;
   }
 }
+
+/* ===== Mobile fixes (touch) ===== */
+/* Team captions are hover-only; show them on touch devices so names are visible on mobile */
+@media (hover: none) {
+  .team__figure-overlay {
+    opacity: 1;
+    background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.25) 55%, transparent 100%);
+  }
+}
+/* Let form inputs shrink inside grid tracks (prevents overflow on tablet/mobile) */
+.contact__form-group { min-width: 0; }
